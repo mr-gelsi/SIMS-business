@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Business Game</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23c99a2e'/><text x='50' y='68' font-size='56' text-anchor='middle' font-family='monospace' font-weight='bold' fill='%23123f2f'>$</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth">
+    <div class="brand"><span class="seal">$</span><span id="bankName">Class Bank</span></div>
+    <div class="card">
+      <div class="seg">
+        <button type="button" class="active" data-mode="login">Log in</button>
+        <button type="button" data-mode="register">New account</button>
+      </div>
+
+      <form id="loginForm">
+        <label>Username</label>
+        <input name="username" autocomplete="username" required autocapitalize="off">
+        <label>Password</label>
+        <input name="password" type="password" autocomplete="current-password" required>
+        <button class="btn primary block lg" type="submit" style="margin-top:18px">Log in</button>
+      </form>
+
+      <form id="registerForm" class="hidden">
+        <div id="closedNote" class="notice warn small hidden" style="margin-top:8px">Sign-ups are closed right now. Ask your teacher for an account.</div>
+        <label>Class code <span class="hint">(from your teacher)</span></label>
+        <input name="class_code" required autocapitalize="characters">
+        <label>Your first and last name</label>
+        <input name="name" required maxlength="60">
+        <label>Class period <span class="hint">(optional)</span></label>
+        <input name="period" maxlength="20" placeholder="e.g. 3">
+        <label>Pick a username</label>
+        <input name="username" required autocapitalize="off" maxlength="30" placeholder="letters and numbers, no spaces">
+        <label>Pick a password <span class="hint">(4+ characters)</span></label>
+        <input name="password" type="password" required minlength="4" autocomplete="new-password">
+        <button class="btn primary block lg" type="submit" style="margin-top:18px">Open my bank account</button>
+      </form>
+    </div>
+    <p class="small muted" style="text-align:center;margin-top:16px"><a href="/teacher.html">Teacher login</a></p>
+  </div>
+</div>
+<script src="/js/common.js"></script>
+<script>
+  const { api, setToken, getToken, onSubmit } = SBG;
+  if (getToken()) location.href = '/app.html';
+  const forms = { login: document.getElementById('loginForm'), register: document.getElementById('registerForm') };
+  document.querySelectorAll('.seg button').forEach((b) => b.addEventListener('click', () => {
+    document.querySelectorAll('.seg button').forEach((x) => x.classList.toggle('active', x === b));
+    for (const [k, f] of Object.entries(forms)) f.classList.toggle('hidden', k !== b.dataset.mode);
+  }));
+  api('GET', 'info').then((i) => {
+    document.getElementById('bankName').textContent = i.bank_name;
+    document.getElementById('closedNote').classList.toggle('hidden', i.allow_signup);
+  }).catch(() => {});
+  onSubmit(forms.login, async (d) => { const r = await api('POST', 'login', d); setToken(r.token); location.href = '/app.html'; });
+  onSubmit(forms.register, async (d) => { const r = await api('POST', 'register', d); setToken(r.token); location.href = '/app.html'; });
+</script>
+</body>
+</html>

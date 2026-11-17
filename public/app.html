@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Bank · Student Business Game</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%23c99a2e'/><text x='50' y='68' font-size='56' text-anchor='middle' font-family='monospace' font-weight='bold' fill='%23123f2f'>$</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="inner">
+    <a class="brand" href="#/"><span class="seal">$</span><span id="bankName">Class Bank</span></a>
+    <nav class="tabs" id="nav">
+      <a href="#/" data-tab="bank">My Bank</a>
+      <a href="#/businesses" data-tab="businesses">My Businesses</a>
+      <a href="#/grants" data-tab="grants">Grants</a>
+      <a href="#/loans" data-tab="loans">Loans</a>
+      <a href="#/directory" data-tab="directory">Class Market</a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="who" id="who"></span>
+    <button class="btn sm ghost" style="color:#fff;border-color:rgba(255,255,255,.3)" id="logout">Log out</button>
+  </div>
+</header>
+<main id="view"><div class="empty">Loading…</div></main>
+<script src="/js/common.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
